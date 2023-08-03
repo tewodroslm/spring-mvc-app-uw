@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<div xmlns:jsp="http://java.sun.com/JSP/Page"
+     xmlns:c="http://java.sun.com/jsp/jstl/core"
+     xmlns:spring="http://www.springframework.org/tags"
+     xmlns:form="http://www.springframework.org/tags/form"
+     version="2.0">
+
+    <script type="text/javascript">
+        $(function(){
+            // $('#birthDate').datepicker({
+            //     dateFormat: 'yy-mm-dd',
+            //     changeYear: true
+            // });
+
+            $("#bookPublisher").ckeditor(
+                {
+                    toolbar : 'Basic',
+                    uiColor : '#CCCCCC'
+                }
+            );
+        });
+    </script>
+
+    <jsp:directive.page contentType="text/html;charset=UTF-8"/>
+    <jsp:output omit-xml-declaration="yes"/>
+
+    <spring:message code="book_category" var="bookCategory"/>
+    <spring:message code="book_isbn" var="bookIsnb"/>
+    <spring:message code="book_title" var="bookTitle"/>
+    <spring:message code="book_publisher" var="bookPublisher"/>
+    <spring:message code="book_price" var="bookPrice"/>
+
+    <!--  Use the Spring Expression Language to test whether the singer ID is null -->
+    <spring:eval expression="book.id == null ? bookNew:bookUpdate"
+                 var="formTitle"/>
+
+    <h1>${formTitle}</h1>
+
+    <div id="bookUpdate">
+        <!-- We need to enable the multipart file upload support by specifying the attribute enctype. -->
+        <form:form modelAttribute="book" id="bookUpdateForm" method="post"
+                   enctype="multipart/form-data">
+
+            <c:if test="${not empty message}">
+                <div id="message" class="${message.type}">${message.message}</div>
+            </c:if>
+
+            <form:label path="category">
+                ${bookCategory}*
+            </form:label>
+            <form:input path="category" />
+            <div>
+                <form:errors path="category" cssClass="error" />
+            </div>
+            <p/>
+
+            <form:label path="isbn">
+                ${bookIsnb}*
+            </form:label>
+            <form:input path="isbn" />
+            <div>
+                <form:errors path="isbn" cssClass="error" />
+            </div>
+            <p/>
+
+            <form:label path="title">
+                ${bookTitle}
+            </form:label>
+            <form:input path="title" id="title"/>
+            <div>
+                <form:errors path="ttitle" cssClass="error" />
+            </div>
+            <p/>
+
+            <form:label path="publisher">
+                ${bookPublisher}
+            </form:label>
+            <form:input path="publisher" id="publisher"/>
+            <div>
+                <form:errors path="publisher" cssClass="error" />
+            </div>
+            <p/>
+
+            <!-- The file upload field is added to the form. -->
+            <form:label path="price">
+                ${bookPrice}
+            </form:label>
+            <form:input path="price" id="price"/>
+            <div>
+                <form:errors path="price" cssClass="error" />
+            </div>
+            <p/>
+
+            <button type="submit" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+                <span class="ui-button-text">Save</span>
+            </button>
+            <button type="reset" class="ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only">
+                <span class="ui-button-text">Reset</span>
+            </button>
+        </form:form>
+    </div>
+</div>
